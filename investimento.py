@@ -67,17 +67,17 @@ class Investimento:
     # função para calcular o valor final da operação e taxa de corretora e imposto
     def calcular_valor_final(self, valor_unitario, quantidade, taxa_corretora):
         valor_bruto = valor_unitario * quantidade
-        valor_taxa = (valor_bruto * taxa_corretora) / 100
-        valor_imposto = (valor_bruto * 3) / 100
-        valor_final = valor_bruto + valor_taxa + valor_imposto
+        valor_imposto = valor_bruto * 0.0003
+        valor_final = valor_bruto + taxa_corretora + valor_imposto
         return round(valor_final, 2)
     
     def calcular_preco_medio(self, valor_final, quantidade, valor_unitario, compra_venda):
-        if compra_venda == "Compra":
-            preco_medio = (valor_final + (quantidade * valor_unitario)) / (quantidade + quantidade)
-        else:
-            pass
-        return round(preco_medio, 2)
+            if compra_venda == "Compra":
+                preco_medio = (valor_final + (quantidade * valor_unitario)) / (quantidade + quantidade)
+            else:
+                preco_medio = (valor_final - (quantidade * valor_unitario)) / (quantidade + quantidade)
+
+            return round(preco_medio, 2)
 
     # função para inserseir as operações que o usuario deseja
     def salvar_operacao(self, data, ativo, valor_unitario, quantidade, compra_venda, taxa_corretora, valor_final_real, preco_medio):
@@ -99,7 +99,7 @@ class Investimento:
             [sg.Text("Valor unitário: (R$)"), sg.InputText(key="valor_unitario")],
             [sg.Text("Quantidade: "), sg.InputText(key="quantidade")],
             [sg.Text("Operação: "), sg.Radio("Compra", group_id=1, key="compra"), sg.Radio("Venda", group_id=1, key="venda", default=True)],
-            [sg.Text("Taxa da corretora: (%)"), sg.InputText(key="taxa_corretora")],
+            [sg.Text("Taxa da corretora: (R$)"), sg.InputText(key="taxa_corretora")],
             [sg.Text("Taxa de Imposto: 3%")],
             [sg.Button("Salvar"), sg.Button("Limpar campos"), sg.Button("Sair"), sg.Button("Detalhar um ativo")], #detalahr ainda não aplicado
             [sg.Text(" ")],
